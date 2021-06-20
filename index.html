@@ -1,0 +1,152 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>計算中獎金額</title>
+</head>
+
+<body>
+<table summary="統一發票中獎號碼單" border="1" align="center">
+  <tbody>
+    <tr>
+      <th id="group0">年月份</th>
+      <td headers="group0" align="center">
+      <input style="color:red;font-size:30px" type=text /></td>
+    </tr>
+    <tr>
+      <th id="group1" rowspan="2">特別獎</th>
+      <td headers="group1"> <input style="color:red;font-size:20px" type=text id="extraSpecialAward" /></td>
+    </tr>
+    <tr>
+      <td headers="specialPrize">同期統一發票收執聯8位數號碼與特別獎號碼相同者獎金1,000萬元</td>
+    </tr>
+    <tr>
+      <th id="group2" rowspan="2">特獎</th>
+      <td headers="group2"><input style="color:red;font-size:20px" type=text id="specialAward" /></td>
+    </tr>
+    <tr>
+      <td headers="grandPrize">同期統一發票收執聯8位數號碼與特獎號碼相同者獎金200萬元</td>
+    </tr>
+    <tr>
+      <th id="group3" rowspan="2">頭獎</th>
+      <td headers="group3"><p><input style="color:red;font-size:20px" type=text id="jackpot_1" /></p>
+        <p><input style="color:red;font-size:20px" type=text id="jackpot_2"/></p>
+        <p><input style="color:red;font-size:20px" type=text id="jackpot_3"/></p></td>
+    </tr>
+    <tr>
+      <td headers="firstPrize">同期統一發票收執聯8位數號碼與頭獎號碼相同者獎金20萬元</td>
+    </tr>
+    <tr>
+      <th id="group4">二獎</th>
+      <td headers="group4">同期統一發票收執聯末7 位數號碼與頭獎中獎號碼末7 位相同者各得獎金4萬元</td>
+    </tr>
+    <tr>
+      <th id="group5">三獎</th>
+      <td headers="group5">同期統一發票收執聯末6 位數號碼與頭獎中獎號碼末6 位相同者各得獎金1萬元</td>
+    </tr>
+    <tr>
+      <th id="group6">四獎</th>
+      <td headers="group6">同期統一發票收執聯末5 位數號碼與頭獎中獎號碼末5 位相同者各得獎金4千元</td>
+    </tr>
+    <tr>
+      <th id="group7">五獎</th>
+      <td headers="group7">同期統一發票收執聯末4 位數號碼與頭獎中獎號碼末4 位相同者各得獎金1千元</td>
+    </tr>
+    <tr>
+      <th id="group8">六獎</th>
+      <td headers="group8">同期統一發票收執聯末3 位數號碼與 頭獎中獎號碼末3 位相同者各得獎金2百元</td>
+    </tr>
+  </tbody>
+</table>
+<hr />
+您的發票號碼<input type=text  style="color:red;font-size:20px" id="check" />
+您的中獎金額<input type=text   style="color:red;font-size:20px" id="output" />
+<input type=button value="開始對獎" onclick="reword()" />
+
+<script>
+  function reword(){
+    var receiptNumber = document.getElementById("check").value.trim();
+    var extraSpecialAward = document.getElementById("extraSpecialAward").value.trim();
+    var specialAward = document.getElementById("specialAward").value.trim();
+    var jackpot_1 = document.getElementById("jackpot_1").value.trim() ;
+    var jackpot_2 = document.getElementById("jackpot_2").value.trim() ;
+    var jackpot_3 = document.getElementById("jackpot_3").value.trim();
+    var awardAmount="0元";
+
+    //檢查是否空欄位都填完畢與是否發票號碼都八個號碼
+    if(receiptNumber=="" || receiptNumber.length!=8 
+      || extraSpecialAward=="" || extraSpecialAward.length!=8
+      || specialAward=="" || specialAward.length!=8
+      ||jackpot_1=="" || jackpot_1.length!=8
+      || jackpot_2=="" || jackpot_2.length!=8
+      || jackpot_3=="" || jackpot_3.length!=8)
+    {
+      alert("請填所有欄位，發票號碼必須8個號碼!");
+    }
+    else{ //全部空欄位都填八個號碼了
+      //檢查是否抽到特別獎
+      if(receiptNumber==extraSpecialAward)
+      {
+        document.getElementById("output").value="1,000萬元";
+      }
+      else if(receiptNumber==specialAward) //檢查是否抽到特獎
+      {
+        document.getElementById("output").value="200萬元";
+      }
+      else if(receiptNumber==jackpot_1 || receiptNumber==jackpot_2 || receiptNumber==jackpot_3) //檢查是否抽到頭獎
+      {
+        document.getElementById("output").value="20萬元";
+      }
+      else{ //如果沒有抽到8個號碼的, 才要檢查少號碼
+        if(receiptNumber.substr(-3)==extraSpecialAward.substr(-3) //檢查是否抽到六獎
+          || receiptNumber.substr(-3)==specialAward.substr(-3)
+          || receiptNumber.substr(-3)==jackpot_1.substr(-3)
+          || receiptNumber.substr(-3)==jackpot_2.substr(-3)
+          || receiptNumber.substr(-3)==jackpot_3.substr(-3))
+        {
+          awardAmount="2百元";
+        }
+        if(awardAmount=="2百元" &&
+        (receiptNumber.substr(-4)==extraSpecialAward.substr(-4)  //檢查是否抽到五獎
+          || receiptNumber.substr(-4)==specialAward.substr(-4)
+          || receiptNumber.substr(-4)==jackpot_1.substr(-4)
+          || receiptNumber.substr(-4)==jackpot_2.substr(-4)
+          || receiptNumber.substr(-4)==jackpot_3.substr(-4)))
+        {
+          awardAmount="1千元";
+        }
+        if(awardAmount=="1千元" &&
+        (receiptNumber.substr(-5)==extraSpecialAward.substr(-5) //檢查是否抽到四獎
+          || receiptNumber.substr(-5)==specialAward.substr(-5)
+          || receiptNumber.substr(-5)==jackpot_1.substr(-5)
+          || receiptNumber.substr(-5)==jackpot_2.substr(-5)
+          || receiptNumber.substr(-5)==jackpot_3.substr(-5)))
+        {
+          awardAmount="4千元";
+        }
+        if(awardAmount=="4千元" &&
+        (receiptNumber.substr(-6)==extraSpecialAward.substr(-6) //檢查是否抽到三獎
+          || receiptNumber.substr(-6)==specialAward.substr(-6)
+          || receiptNumber.substr(-6)==jackpot_1.substr(-6)
+          || receiptNumber.substr(-6)==jackpot_2.substr(-6)
+          || receiptNumber.substr(-6)==jackpot_3.substr(-6)))
+        {
+          awardAmount="1萬元";
+        }
+        if(awardAmount=="1萬元" &&
+        (receiptNumber.substr(-7)==extraSpecialAward.substr(-7) //檢查是否抽到二獎
+          || receiptNumber.substr(-7)==specialAward.substr(-7)
+          || receiptNumber.substr(-7)==jackpot_1.substr(-7)
+          || receiptNumber.substr(-7)==jackpot_2.substr(-7)
+          || receiptNumber.substr(-7)==jackpot_3.substr(-7)))
+        {
+          awardAmount="4萬元";
+        }
+        document.getElementById("output").value=awardAmount;
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
